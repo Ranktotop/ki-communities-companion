@@ -11,7 +11,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 | Hinweis an der Kasse | `includes/class-checkout-notice.php` | Zeigt über dem Bestell-Button den Hinweis mit Links auf AGB, Widerrufsbelehrung und Datenschutz. |
 | Community-Medien lokal | `includes/class-community-media.php` | Speichert YouTube-Vorschaubilder und GIPHY-GIFs aus Beiträgen, Lektionen und Kommentaren lokal (`uploads/fcom-extern/`). |
 | Portal-Styles | `includes/class-portal-styles.php` | Hinweisband auf YouTube-Videos vor dem Abspielen; Font Awesome lokal für Linklisten. |
-| FluentCart-Farben seitenweit | `includes/class-theme-colors.php` | Übersetzt die Theme-Farben auch außerhalb der Kasse in die `--fct-checkout-*`-Variablen, damit z. B. der Button im Widerrufsformular violett statt grau ist. |
+| FluentCart-Farben seitenweit | `includes/class-theme-colors.php` | Übersetzt die Theme-Farben auch außerhalb der Kasse in die `--fct-checkout-*`-Variablen, damit z. B. der Button im Widerrufsformular violett statt grau ist. Gibt dem Abmelden-Button im Kundenkonto seine FluentCart-Farbe zurück (Divis Linkfarbe würde ihn sonst überschreiben). |
 | Setup-Check | `includes/class-setup-check.php` | Werkzeuge → KI-Communities Check: zeigt, ob alle nötigen Einstellungen noch stimmen. |
 
 ### Anpassbar per Filter
