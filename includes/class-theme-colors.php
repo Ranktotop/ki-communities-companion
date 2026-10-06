@@ -34,6 +34,10 @@ class KIC_Theme_Colors
             . '--fct-checkout-btn-text-color:var(--fct-btn-text-color,#ffffff);'
             . '--fct-checkout-btn-hover-bg-color:var(--fct-btn-hover-bg-color,var(--fct-checkout-btn-bg-color));'
             . '--fct-checkout-btn-hover-text-color:var(--fct-btn-hover-text-color,var(--fct-checkout-btn-text-color));'
-            . '}</style>' . "\n";
+            . '}'
+            . 'a.fct-customer-logout-btn.fct-customer-logout-btn,'
+            . 'a.fct-customer-logout-btn.fct-customer-logout-btn:hover,'
+            . 'a.fct-customer-logout-btn.fct-customer-logout-btn:focus{color:var(--fct-customer-dashboard-logout-btn-text-color,#F04438);}'
+            . '</style>' . "\n";
     }
 }
