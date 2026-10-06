@@ -1,0 +1,119 @@
+<?php
+/**
+ * Rechtsblock in der Bestellbestätigung (FluentCart „Kaufbeleg“, order_paid_customer).
+ *
+ * - Enthält die Bestellung digitale Inhalte (keine Dienstleistung), wird der Verzicht auf das
+ *   Widerrufsrecht nach § 356 Abs. 5 BGB auf dauerhaftem Datenträger bestätigt.
+ * - Immer angehängt: die zum Bestellzeitpunkt gültigen AGB inkl. Widerrufsbelehrung und Muster-Formular.
+ *
+ * Dienstleistungen werden über Produktkategorien erkannt (Filter kic/service_categories, Standard: live-call).
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+class KIC_Legal_Email
+{
+    public static function init()
+    {
+        add_filter('fluent_cart/email_notification/mailer', [__CLASS__, 'appendLegalBlock'], 10, 2);
+    }
+
+    public static function appendLegalBlock($mailer, $context)
+    {
+        if (($context['mail_name'] ?? '') !== 'order_paid_customer') {
+            return $mailer;
+        }
+
+        $agbPage = get_page_by_path(apply_filters('kic/agb_page_slug', 'agb-widerrufsrecht'));
+        if (!$agbPage) {
+            return $mailer;
+        }
+
+        $order   = $context['data']['order'] ?? null;
+        $date    = ($order && !empty($order->created_at)) ? date_i18n('d.m.Y', strtotime($order->created_at)) : date_i18n('d.m.Y');
+        $invoice = ($order && !empty($order->invoice_no)) ? $order->invoice_no : '';
+        $digital = self::digitalContentTitles($order);
+
+        $block  = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;margin:16px auto 0;padding:24px 32px;max-width:620px"><tbody><tr><td>';
+
+        if ($digital) {
+            $block .= '<h2 style="font-size:16px;line-height:24px;margin:0 0 8px;color:#111827">Bestätigung deiner Zustimmung zum vorzeitigen Vertragsbeginn</h2>';
+            $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 8px;color:#374151">Du hast bei deiner Bestellung vom ' . esc_html($date)
+                . ($invoice ? ' (Bestellnummer ' . esc_html($invoice) . ')' : '')
+                . ' für folgende digitale Inhalte ausdrücklich zugestimmt, dass wir vor Ablauf der Widerrufsfrist mit der Ausführung des Vertrags beginnen und dir die Inhalte sofort bereitstellen: '
+                . esc_html(implode(', ', $digital)) . '. '
+                . 'Du hast zudem deine Kenntnis davon bestätigt, dass du durch diese Zustimmung mit Beginn der Ausführung des Vertrags dein Widerrufsrecht verlierst.</p>';
+            $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 16px;color:#374151">Unabhängig davon gilt für Online-Kurse, bei denen sie angegeben ist, die freiwillige 14-Tage-Geld-zurück-Garantie gemäß § 10 der AGB.</p>';
+        }
+
+        $block .= '<h2 style="font-size:16px;line-height:24px;margin:0 0 8px;color:#111827">Deine Vertragsbedingungen</h2>';
+        $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 8px;color:#374151">Nachfolgend erhältst du die zum Zeitpunkt deiner Bestellung gültigen AGB mit Widerrufsbelehrung und Muster-Widerrufsformular.</p>';
+        $block .= '<div>' . self::formatAgb($agbPage->post_content) . '</div>';
+        $block .= '</td></tr></tbody></table>';
+
+        $getBody = \Closure::bind(function () {
+            return $this->body;
+        }, $mailer, get_class($mailer));
+        $body = (string) $getBody();
+
+        if (strpos($body, '<table class="email_footer"') !== false) {
+            $body = preg_replace('/<table class="email_footer"/', $block . '<table class="email_footer"', $body, 1);
+        } elseif (stripos($body, '</body>') !== false) {
+            $body = preg_replace('/<\/body>/i', $block . '</body>', $body, 1);
+        } else {
+            $body .= $block;
+        }
+
+        $mailer->body($body);
+        return $mailer;
+    }
+
+    /**
+     * Titel aller Bestellpositionen, die digitale Inhalte sind (digital und keine Dienstleistung).
+     */
+    public static function digitalContentTitles($order)
+    {
+        $items = is_object($order) ? $order->order_items : null;
+        if (empty($items)) {
+            return [];
+        }
+
+        $serviceCategories = (array) apply_filters('kic/service_categories', ['live-call']);
+        $titles = [];
+
+        foreach ($items as $item) {
+            if (($item->fulfillment_type ?? '') !== 'digital') {
+                continue;
+            }
+            $productId = (int) ($item->post_id ?? 0);
+            $slugs     = $productId ? wp_get_object_terms($productId, 'product-categories', ['fields' => 'slugs']) : [];
+            if (!is_wp_error($slugs) && array_intersect($serviceCategories, (array) $slugs)) {
+                continue;
+            }
+            $titles[] = $item->post_title ?: ($item->title ?: get_the_title($productId));
+        }
+
+        return array_values(array_unique(array_filter($titles)));
+    }
+
+    private static function formatAgb($content)
+    {
+        $agb = wp_kses($content, [
+            'h2' => [], 'h3' => [], 'p' => [], 'ol' => [], 'ul' => [], 'li' => [], 'strong' => [], 'em' => [], 'br' => [], 'hr' => [],
+            'a'  => ['href' => []],
+        ]);
+
+        return str_replace(
+            ['<h2>', '<h3>', '<p>', '<li>'],
+            [
+                '<h2 style="font-size:15px;line-height:22px;margin:18px 0 6px;color:#111827">',
+                '<h3 style="font-size:13px;line-height:20px;margin:14px 0 4px;color:#111827">',
+                '<p style="font-size:12px;line-height:18px;margin:0 0 6px;color:#374151">',
+                '<li style="font-size:12px;line-height:18px;margin:0 0 4px;color:#374151">',
+            ],
+            $agb
+        );
+    }
+}

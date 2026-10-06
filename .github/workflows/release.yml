@@ -1,0 +1,69 @@
+# Baut bei jeder neuen Plugin-Version automatisch ein Release.
+# Ablauf: Version im Header von ki-communities-companion.php erhöhen, committen, pushen.
+# Gibt es den Tag v<Version> noch nicht, wird die ZIP gebaut und als Release-Asset veröffentlicht.
+# WordPress erkennt das Update dann über den Plugin Update Checker.
+
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Version aus dem Plugin-Header lesen
+        id: version
+        run: |
+          VERSION=$(grep -m1 -E '^\s*\*\s*Version:' ki-communities-companion.php | sed -E 's/.*Version:\s*//' | tr -d '[:space:]')
+          CONST=$(grep -m1 "define('KIC_VERSION'" ki-communities-companion.php | sed -E "s/.*'([0-9][^']*)'.*/\1/")
+          if [ "$VERSION" != "$CONST" ]; then
+            echo "Version im Header ($VERSION) und KIC_VERSION ($CONST) stimmen nicht überein." >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: PHP einrichten
+        if: steps.version.outputs.exists == 'false'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      - name: Syntax prüfen
+        if: steps.version.outputs.exists == 'false'
+        run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Plugin-ZIP bauen
+        if: steps.version.outputs.exists == 'false'
+        run: |
+          composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+          mkdir -p build/ki-communities-companion
+          rsync -a ./ build/ki-communities-companion/ \
+            --exclude '.git' --exclude '.github' --exclude 'build' \
+            --exclude 'composer.json' --exclude 'composer.lock' --exclude '.gitignore' --exclude 'SPEC.md'
+          cd build && zip -rq ki-communities-companion.zip ki-communities-companion
+
+      - name: Release veröffentlichen
+        if: steps.version.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.version }}" build/ki-communities-companion.zip \
+            --title "v${{ steps.version.outputs.version }}" \
+            --notes "Automatisch gebaut aus ${GITHUB_SHA::7}." \
+            --target "$GITHUB_SHA"
