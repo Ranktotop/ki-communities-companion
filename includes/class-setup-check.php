@@ -42,6 +42,10 @@ class KIC_Setup_Check
             $terms = \FluentCart\App\Services\Renderer\CheckoutFieldsSchema::getTermsText();
         }
         $checks[] = ['Kasse: Checkbox enthält nur den Verzicht auf das Widerrufsrecht', stripos($terms, 'Widerrufsrecht') !== false && stripos($terms, 'AGB') === false, wp_strip_all_tags($terms)];
+        $checks[] = ['Kasse: Checkbox-Text passt sich dem Warenkorb an (digital / Dienstleistung)', KIC_Consent::isSupported(), 'Benötigt CheckoutFieldsSchema::$fieldsCache in FluentCart'];
+        $serviceCategories = (array) apply_filters('kic/service_categories', ['live-call']);
+        $existing = array_filter($serviceCategories, fn($slug) => term_exists($slug, 'product-categories'));
+        $checks[] = ['Dienstleistungs-Kategorie vorhanden', (bool) $existing, implode(', ', $serviceCategories)];
 
         // Widerrufsbutton: abgeschlossene Bestellungen nicht gesperrt, Admin-Mail gesetzt.
         $store = get_option('fluent_cart_store_settings', []);

@@ -2,8 +2,9 @@
 /**
  * Rechtsblock in der Bestellbestätigung (FluentCart „Kaufbeleg“, order_paid_customer).
  *
- * - Enthält die Bestellung digitale Inhalte (keine Dienstleistung), wird der Verzicht auf das
- *   Widerrufsrecht nach § 356 Abs. 5 BGB auf dauerhaftem Datenträger bestätigt.
+ * - Digitale Inhalte: Bestätigung der Zustimmung zum sofortigen Beginn und der Kenntnis vom Verlust des
+ *   Widerrufsrechts (§ 356 Abs. 5 BGB) auf dauerhaftem Datenträger.
+ * - Dienstleistungen: Bestätigung des Verlangens, vor Fristablauf zu beginnen (§ 356 Abs. 4 BGB).
  * - Immer angehängt: die zum Bestellzeitpunkt gültigen AGB inkl. Widerrufsbelehrung und Muster-Formular.
  *
  * Dienstleistungen werden über Produktkategorien erkannt (Filter kic/service_categories, Standard: live-call).
@@ -34,18 +35,36 @@ class KIC_Legal_Email
         $order   = $context['data']['order'] ?? null;
         $date    = ($order && !empty($order->created_at)) ? date_i18n('d.m.Y', strtotime($order->created_at)) : date_i18n('d.m.Y');
         $invoice = ($order && !empty($order->invoice_no)) ? $order->invoice_no : '';
-        $digital = self::digitalContentTitles($order);
+        $types   = KIC_Consent::classify(is_object($order) ? $order->order_items : []);
+        $digital = $types['digital'];
+        $service = $types['service'];
 
         $block  = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;margin:16px auto 0;padding:24px 32px;max-width:620px"><tbody><tr><td>';
 
-        if ($digital) {
+        $orderRef = esc_html($date) . ($invoice ? ' (Bestellnummer ' . esc_html($invoice) . ')' : '');
+
+        if ($digital || $service) {
             $block .= '<h2 style="font-size:16px;line-height:24px;margin:0 0 8px;color:#111827">Bestätigung deiner Zustimmung zum vorzeitigen Vertragsbeginn</h2>';
-            $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 8px;color:#374151">Du hast bei deiner Bestellung vom ' . esc_html($date)
-                . ($invoice ? ' (Bestellnummer ' . esc_html($invoice) . ')' : '')
+        }
+
+        if ($digital) {
+            $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 8px;color:#374151">Du hast bei deiner Bestellung vom ' . $orderRef
                 . ' für folgende digitale Inhalte ausdrücklich zugestimmt, dass wir vor Ablauf der Widerrufsfrist mit der Ausführung des Vertrags beginnen und dir die Inhalte sofort bereitstellen: '
                 . esc_html(implode(', ', $digital)) . '. '
                 . 'Du hast zudem deine Kenntnis davon bestätigt, dass du durch diese Zustimmung mit Beginn der Ausführung des Vertrags dein Widerrufsrecht verlierst.</p>';
-            $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 16px;color:#374151">Unabhängig davon gilt für Online-Kurse, bei denen sie angegeben ist, die freiwillige 14-Tage-Geld-zurück-Garantie gemäß § 10 der AGB.</p>';
+            $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 8px;color:#374151">Unabhängig davon gilt für Online-Kurse, bei denen sie angegeben ist, die freiwillige 14-Tage-Geld-zurück-Garantie gemäß § 10 der AGB.</p>';
+        }
+
+        if ($service) {
+            $block .= '<p style="font-size:14px;line-height:22px;margin:0 0 8px;color:#374151">Du hast bei deiner Bestellung vom ' . $orderRef
+                . ' für folgende Dienstleistungen ausdrücklich verlangt, dass wir vor Ablauf der Widerrufsfrist mit der Ausführung beginnen: '
+                . esc_html(implode(', ', $service)) . '. '
+                . 'Du hast zudem deine Kenntnis davon bestätigt, dass du dein Widerrufsrecht bei vollständiger Vertragserfüllung durch uns verlierst. '
+                . 'Widerrufst du vorher, schuldest du uns einen angemessenen Betrag für die bis dahin erbrachten Leistungen (siehe Widerrufsbelehrung).</p>';
+        }
+
+        if ($digital || $service) {
+            $block .= '<div style="height:8px"></div>';
         }
 
         $block .= '<h2 style="font-size:16px;line-height:24px;margin:0 0 8px;color:#111827">Deine Vertragsbedingungen</h2>';
@@ -68,34 +87,6 @@ class KIC_Legal_Email
 
         $mailer->body($body);
         return $mailer;
-    }
-
-    /**
-     * Titel aller Bestellpositionen, die digitale Inhalte sind (digital und keine Dienstleistung).
-     */
-    public static function digitalContentTitles($order)
-    {
-        $items = is_object($order) ? $order->order_items : null;
-        if (empty($items)) {
-            return [];
-        }
-
-        $serviceCategories = (array) apply_filters('kic/service_categories', ['live-call']);
-        $titles = [];
-
-        foreach ($items as $item) {
-            if (($item->fulfillment_type ?? '') !== 'digital') {
-                continue;
-            }
-            $productId = (int) ($item->post_id ?? 0);
-            $slugs     = $productId ? wp_get_object_terms($productId, 'product-categories', ['fields' => 'slugs']) : [];
-            if (!is_wp_error($slugs) && array_intersect($serviceCategories, (array) $slugs)) {
-                continue;
-            }
-            $titles[] = $item->post_title ?: ($item->title ?: get_the_title($productId));
-        }
-
-        return array_values(array_unique(array_filter($titles)));
     }
 
     private static function formatAgb($content)
