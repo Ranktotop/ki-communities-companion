@@ -12,7 +12,6 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 | Community-Medien lokal | `includes/class-community-media.php` | Speichert YouTube-Vorschaubilder und GIPHY-GIFs aus Beiträgen, Lektionen und Kommentaren lokal (`uploads/fcom-extern/`). |
 | Portal-Styles | `includes/class-portal-styles.php` | Hinweisband auf YouTube-Videos vor dem Abspielen; Font Awesome lokal für Linklisten. |
 | FluentCart-Farben seitenweit | `includes/class-theme-colors.php` | Übersetzt die Theme-Farben auch außerhalb der Kasse in die `--fct-checkout-*`-Variablen, damit z. B. der Button im Widerrufsformular violett statt grau ist. Gibt dem Abmelden-Button im Kundenkonto seine FluentCart-Farbe zurück (Divis Linkfarbe würde ihn sonst überschreiben). |
-| Verkauf nur nach Deutschland | `includes/class-sales-countries.php` | Länderauswahl an der Kasse auf Deutschland begrenzt, andere Rechnungsländer werden serverseitig abgelehnt, Hinweis zu Beginn der Kasse (§ 312j Abs. 1 BGB). |
 | Setup-Check | `includes/class-setup-check.php` | Werkzeuge → KI-Communities Check: zeigt, ob alle nötigen Einstellungen noch stimmen. |
 
 ### Anpassbar per Filter
@@ -20,8 +19,6 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 - `kic/service_categories` – Produktkategorie-Slugs, die als Dienstleistung gelten (Standard: `live-call`). Für diese Produkte gilt der Dienstleistungs-Text an der Kasse und in der Mail.
 - `kic/agb_page_slug` – Slug der AGB-Seite (Standard: `agb-widerrufsrecht`).
 - `kic/youtube_notice` – Text des Hinweisbands auf YouTube-Videos.
-- `kic/sales_countries` – erlaubte Rechnungsländer als ISO-Codes (Standard: `['DE']`).
-- `kic/sales_countries_notice` – Hinweistext zur Länderbeschränkung an der Kasse.
 
 ### Voraussetzungen auf der Seite
 
