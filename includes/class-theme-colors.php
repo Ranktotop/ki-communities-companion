@@ -6,9 +6,7 @@
  * in die --fct-checkout-* Variablen. Erweiterungen wie FluentCart Customer Rights (Widerrufsformular) nutzen
  * --fct-checkout-* auch außerhalb der Kasse und fallen dort auf das graue Standard-#253241 zurück.
  * Dieses Modul setzt dieselbe Zuordnung wie checkout.css auf allen Seiten.
- *
- * Außerdem: Divis Linkfarbe im Theme-Builder-Inhalt (.et_pb_post_content_* a) ist spezifischer als FluentCarts
- * Farbe für den Abmelden-Button im Kundenkonto. Der Button bekommt seine FluentCart-Farbe zurück.
+
  */
 
 if (!defined('ABSPATH')) {
