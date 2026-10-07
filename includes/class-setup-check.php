@@ -47,6 +47,10 @@ class KIC_Setup_Check
         $existing = array_filter($serviceCategories, fn($slug) => term_exists($slug, 'product-categories'));
         $checks[] = ['Dienstleistungs-Kategorie vorhanden', (bool) $existing, implode(', ', $serviceCategories)];
 
+        // Kasse, Konto, Beleg nicht in Suchmaschinen.
+        $noindexIds = KIC_Shop_Noindex::pageIds();
+        $checks[] = ['Kasse, Kundenkonto und Beleg-Seite auf noindex', count($noindexIds) >= 3, implode(', ', array_map('get_the_title', $noindexIds))];
+
         // EU-Lieferschwelle (OSS).
         $oss = KIC_OSS_Monitor::totals();
         $checks[] = ['EU-Lieferschwelle nicht erreicht (oder OSS aktiv)', KIC_OSS_Monitor::ossActive() || $oss['level'] === 'ok', KIC_OSS_Monitor::message($oss)];

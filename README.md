@@ -13,6 +13,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 | Portal-Styles | `includes/class-portal-styles.php` | Hinweisband auf YouTube-Videos vor dem Abspielen; Font Awesome lokal für Linklisten. |
 | FluentCart-Farben seitenweit | `includes/class-theme-colors.php` | Übersetzt die Theme-Farben auch außerhalb der Kasse in die `--fct-checkout-*`-Variablen, damit z. B. der Button im Widerrufsformular violett statt grau ist. |
 | Warnung EU-Lieferschwelle | `includes/class-oss-monitor.php` | Summiert den Nettoumsatz mit Privatkunden im EU-Ausland (bezahlte Live-Bestellungen, ohne Reverse Charge, abzüglich Erstattungen) und warnt ab 8.000 € bzw. bei Überschreiten von 10.000 € im Admin und einmal pro Stufe und Jahr per E-Mail. Still, sobald die EU-Methode in FluentCart auf „OSS“ steht. |
+| Shop-Seiten auf noindex | `includes/class-shop-noindex.php` | Kasse, Kundenkonto und Beleg-/Danke-Seite (aus den FluentCart-Einstellungen) bekommen `noindex, nofollow`. |
 | Setup-Check | `includes/class-setup-check.php` | Werkzeuge → KI-Communities Check: zeigt, ob alle nötigen Einstellungen noch stimmen. |
 
 ### Anpassbar per Filter
@@ -23,6 +24,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 - `kic/oss_warning_threshold` / `kic/oss_limit` – Warnschwelle (Standard 8.000 €) und Grenze (10.000 €).
 - `kic/oss_notify_email` – Empfänger der Warn-Mail (Standard: WordPress-Admin-E-Mail).
 - `kic/oss_include_test_orders` – Testbestellungen mitzählen (Standard: nein).
+- `kic/noindex_page_ids` – weitere Seiten-IDs, die nicht indexiert werden sollen.
 
 ### Voraussetzungen auf der Seite
 
