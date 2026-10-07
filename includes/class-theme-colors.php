@@ -6,7 +6,7 @@
  * in die --fct-checkout-* Variablen. Erweiterungen wie FluentCart Customer Rights (Widerrufsformular) nutzen
  * --fct-checkout-* auch außerhalb der Kasse und fallen dort auf das graue Standard-#253241 zurück.
  * Dieses Modul setzt dieselbe Zuordnung wie checkout.css auf allen Seiten.
-
+ * (Ausnahme von der Regel „CSS gehört in Divi“: die Zuordnung muss auf jeder Seite greifen, auch auf künftigen.)
  */
 
 if (!defined('ABSPATH')) {
@@ -32,10 +32,6 @@ class KIC_Theme_Colors
             . '--fct-checkout-btn-text-color:var(--fct-btn-text-color,#ffffff);'
             . '--fct-checkout-btn-hover-bg-color:var(--fct-btn-hover-bg-color,var(--fct-checkout-btn-bg-color));'
             . '--fct-checkout-btn-hover-text-color:var(--fct-btn-hover-text-color,var(--fct-checkout-btn-text-color));'
-            . '}'
-            . 'a.fct-customer-logout-btn.fct-customer-logout-btn,'
-            . 'a.fct-customer-logout-btn.fct-customer-logout-btn:hover,'
-            . 'a.fct-customer-logout-btn.fct-customer-logout-btn:focus{color:var(--fct-customer-dashboard-logout-btn-text-color,#F04438);}'
-            . '</style>' . "\n";
+            . '}</style>' . "\n";
     }
 }

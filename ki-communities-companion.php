@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       KI-Communities Companion
  * Description:       Rechtliche und datenschutzbezogene Ergänzungen für FluentCart und Fluent Community auf ki-communities.de.
- * Version:           1.4.4
+ * Version:           1.4.5
  * Requires at least: 6.9
  * Requires PHP:      8.1
  * Author:            Marc Meese
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('KIC_VERSION', '1.4.4');
+define('KIC_VERSION', '1.4.5');
 define('KIC_FILE', __FILE__);
 define('KIC_DIR', plugin_dir_path(__FILE__));
 define('KIC_URL', plugin_dir_url(__FILE__));
