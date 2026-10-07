@@ -11,8 +11,9 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 | Hinweis an der Kasse | `includes/class-checkout-notice.php` | Zeigt über dem Bestell-Button den Hinweis mit Links auf AGB, Widerrufsbelehrung und Datenschutz. |
 | Community-Medien lokal | `includes/class-community-media.php` | Speichert YouTube-Vorschaubilder und GIPHY-GIFs aus Beiträgen, Lektionen und Kommentaren lokal (`uploads/fcom-extern/`). |
 | Portal-Styles | `includes/class-portal-styles.php` | Hinweisband auf YouTube-Videos vor dem Abspielen; Font Awesome lokal für Linklisten. |
-| FluentCart-Farben seitenweit | `includes/class-theme-colors.php` | Übersetzt die Theme-Farben auch außerhalb der Kasse in die `--fct-checkout-*`-Variablen, damit z. B. der Button im Widerrufsformular violett statt grau ist. Gibt dem Abmelden-Button im Kundenkonto seine FluentCart-Farbe zurück (Divis Linkfarbe würde ihn sonst überschreiben). |
+| FluentCart-Farben seitenweit | `includes/class-theme-colors.php` | Übersetzt die Theme-Farben auch außerhalb der Kasse in die `--fct-checkout-*`-Variablen, damit z. B. der Button im Widerrufsformular violett statt grau ist. Weiße Schrift auf dem Gutschein-Button der Kasse. Gibt dem Abmelden-Button im Kundenkonto seine FluentCart-Farbe zurück (Divis Linkfarbe würde ihn sonst überschreiben). |
 | Warnung EU-Lieferschwelle | `includes/class-oss-monitor.php` | Summiert den Nettoumsatz mit Privatkunden im EU-Ausland (bezahlte Live-Bestellungen, ohne Reverse Charge, abzüglich Erstattungen) und warnt ab 8.000 € bzw. bei Überschreiten von 10.000 € im Admin und einmal pro Stufe und Jahr per E-Mail. Still, sobald die EU-Methode in FluentCart auf „OSS“ steht. |
+| Übersetzungskorrekturen | `includes/class-translation-fixes.php` | Korrigiert falsche deutsche FluentCart-Texte (z. B. Platzhalter im Gutscheinfeld „Hier bewerben“ → „Rabattcode eingeben“). |
 | Setup-Check | `includes/class-setup-check.php` | Werkzeuge → KI-Communities Check: zeigt, ob alle nötigen Einstellungen noch stimmen. |
 
 ### Anpassbar per Filter
@@ -23,6 +24,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 - `kic/oss_warning_threshold` / `kic/oss_limit` – Warnschwelle (Standard 8.000 €) und Grenze (10.000 €).
 - `kic/oss_notify_email` – Empfänger der Warn-Mail (Standard: WordPress-Admin-E-Mail).
 - `kic/oss_include_test_orders` – Testbestellungen mitzählen (Standard: nein).
+- `kic/translation_fixes` – weitere Übersetzungskorrekturen als `['Original' => 'Deutsch']`.
 
 ### Voraussetzungen auf der Seite
 

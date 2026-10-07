@@ -38,6 +38,8 @@ class KIC_Theme_Colors
             . 'a.fct-customer-logout-btn.fct-customer-logout-btn,'
             . 'a.fct-customer-logout-btn.fct-customer-logout-btn:hover,'
             . 'a.fct-customer-logout-btn.fct-customer-logout-btn:focus{color:var(--fct-customer-dashboard-logout-btn-text-color,#F04438);}'
+            // Divi färbt alle Kassen-Buttons violett, der Gutschein-Button behält aber FluentCarts dunkle Schrift.
+            . '.fct_checkout .fct_coupon_field button,.fct_checkout .fct_coupon_field button:hover{color:var(--fct-btn-text-color,#ffffff);}'
             . '</style>' . "\n";
     }
 }
