@@ -13,7 +13,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 | Portal-Styles | `includes/class-portal-styles.php` | Hinweisband auf YouTube-Videos vor dem Abspielen; Font Awesome lokal für Linklisten. |
 | FluentCart-Farben seitenweit | `includes/class-theme-colors.php` | Übersetzt die Theme-Farben auch außerhalb der Kasse in die `--fct-checkout-*`-Variablen, damit z. B. der Button im Widerrufsformular violett statt grau ist. Weiße Schrift auf dem Gutschein-Button der Kasse. Gibt dem Abmelden-Button im Kundenkonto seine FluentCart-Farbe zurück (Divis Linkfarbe würde ihn sonst überschreiben). |
 | Warnung EU-Lieferschwelle | `includes/class-oss-monitor.php` | Summiert den Nettoumsatz mit Privatkunden im EU-Ausland (bezahlte Live-Bestellungen, ohne Reverse Charge, abzüglich Erstattungen) und warnt ab 8.000 € bzw. bei Überschreiten von 10.000 € im Admin und einmal pro Stufe und Jahr per E-Mail. Still, sobald die EU-Methode in FluentCart auf „OSS“ steht. |
-| Übersetzungskorrekturen | `includes/class-translation-fixes.php` | Korrigiert falsche deutsche FluentCart-Texte (z. B. Platzhalter im Gutscheinfeld „Hier bewerben“ → „Rabattcode eingeben“). |
+| Übersetzungskorrekturen | `includes/class-translation-fixes.php` | Korrigiert falsche deutsche FluentCart-Texte (z. B. Platzhalter im Gutscheinfeld „Hier bewerben“ → „Rabattcode eingeben“, Kopfzeilen der Steueraufschlüsselung). |
 | Setup-Check | `includes/class-setup-check.php` | Werkzeuge → KI-Communities Check: zeigt, ob alle nötigen Einstellungen noch stimmen. |
 
 ### Anpassbar per Filter
