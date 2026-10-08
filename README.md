@@ -15,6 +15,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 | Warnung EU-Lieferschwelle | `includes/class-oss-monitor.php` | Summiert den Nettoumsatz mit Privatkunden im EU-Ausland (bezahlte Live-Bestellungen, ohne Reverse Charge, abzüglich Erstattungen) und warnt ab 8.000 € bzw. bei Überschreiten von 10.000 € im Admin und einmal pro Stufe und Jahr per E-Mail. Still, sobald die EU-Methode in FluentCart auf „OSS“ steht. |
 | Shop-Seiten auf noindex | `includes/class-shop-noindex.php` | Kasse, Kundenkonto und Beleg-/Danke-Seite (aus den FluentCart-Einstellungen) bekommen `noindex, nofollow`. |
 | Setup-Check | `includes/class-setup-check.php` | Werkzeuge → KI-Communities Check: zeigt, ob alle nötigen Einstellungen noch stimmen. |
+| Produkt-Karten | `includes/class-product-cards.php` | Shortcode `[kic_produktkarten anzahl="3" kategorie="" ausschliessen=""]` gibt veröffentlichte FluentCart-Produkte als Karten aus (Bild, Kategorie, Titel, erster Absatz der Kurzbeschreibung, Preis mit „inkl. MwSt.“, „Kostenlos“, „ab“ und Abo-Intervall, Link). Nur HTML mit Klassen `kc-card…`, das Aussehen steht im Divi-CSS der Startseite. Reihenfolge: Menü-Reihenfolge, dann neueste. |
 
 ### Anpassbar per Filter
 
@@ -25,6 +26,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 - `kic/oss_notify_email` – Empfänger der Warn-Mail (Standard: WordPress-Admin-E-Mail).
 - `kic/oss_include_test_orders` – Testbestellungen mitzählen (Standard: nein).
 - `kic/noindex_page_ids` – weitere Seiten-IDs, die nicht indexiert werden sollen.
+- `kic/product_card_labels` / `kic/product_card_ctas` – Label und Button-Text der Produkt-Karten je Kategorie-Slug (z. B. `videokurse` → „Videokurs“ / „Zum Kurs“); `kic/product_card_tax_note` – Steuerhinweis hinter dem Preis (Standard „inkl. MwSt.“, leer = aus).
 
 ### Voraussetzungen auf der Seite
 
