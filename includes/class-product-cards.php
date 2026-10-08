@@ -22,6 +22,23 @@ class KIC_Product_Cards
     public static function init()
     {
         add_shortcode('kic_produktkarten', [__CLASS__, 'render']);
+        add_filter('fluent_cart/product/card_classes', [__CLASS__, 'fluent_card_classes'], 10, 2);
+    }
+
+    /**
+     * FluentCart-Produktkarten (Shop-Seite, verwandte Produkte) bekommen dieselbe Kategorie-Klasse kc-card--cat-<Slug>
+     * wie die Startseiten-Karten, damit das Divi-CSS der Shop-Seite die Kategorie-Farbe setzen kann.
+     */
+    public static function fluent_card_classes($classes, $context)
+    {
+        $product = is_array($context) || $context instanceof ArrayAccess ? ($context['product'] ?? null) : null;
+        $postId  = is_object($product) ? (int) ($product->ID ?? $product->id ?? 0) : 0;
+        $category = $postId ? self::category($postId) : null;
+        if ($category && is_array($classes)) {
+            $classes[] = 'kc-card--cat-' . sanitize_html_class($category->slug);
+        }
+
+        return $classes;
     }
 
     public static function render($atts)
