@@ -23,6 +23,20 @@ class KIC_Product_Cards
     {
         add_shortcode('kic_produktkarten', [__CLASS__, 'render']);
         add_filter('fluent_cart/product/card_classes', [__CLASS__, 'fluent_card_classes'], 10, 2);
+        add_filter('body_class', [__CLASS__, 'body_class']);
+    }
+
+    /** Produktseite: Kategorie als Body-Klasse kc-cat-<Slug>, damit das Divi-CSS die Kategorie-Farbe setzen kann. */
+    public static function body_class($classes)
+    {
+        if (is_singular('fluent-products')) {
+            $category = self::category(get_queried_object_id());
+            if ($category) {
+                $classes[] = 'kc-cat-' . sanitize_html_class($category->slug);
+            }
+        }
+
+        return $classes;
     }
 
     /**
