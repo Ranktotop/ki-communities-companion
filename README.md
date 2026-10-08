@@ -16,6 +16,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 | Shop-Seiten auf noindex | `includes/class-shop-noindex.php` | Kasse, Kundenkonto und Beleg-/Danke-Seite (aus den FluentCart-Einstellungen) bekommen `noindex, nofollow`. |
 | Setup-Check | `includes/class-setup-check.php` | Werkzeuge → KI-Communities Check: zeigt, ob alle nötigen Einstellungen noch stimmen. |
 | Produkt-Karten | `includes/class-product-cards.php` | Shortcode `[kic_produktkarten anzahl="3" kategorie="" ausschliessen=""]` gibt veröffentlichte FluentCart-Produkte als Karten aus (Bild, Kategorie, Titel, erster Absatz der Kurzbeschreibung, Preis mit „inkl. MwSt.“, „Kostenlos“, „ab“ und Abo-Intervall, Link). Nur HTML mit Klassen `kc-card…` (je Karte `kc-card--cat-<Kategorie-Slug>` für die Kategorie-Farbe), das Aussehen steht im Divi-CSS der Startseite. Reihenfolge: Menü-Reihenfolge, dann neueste. |
+| Community-Schaufenster | `includes/class-community-showcase.php` | Shortcodes `[kic_community_zahlen]` (Mitglieder, Lektionen im Vault, Bereiche, gerundet mit „+“) und `[kic_community_fenster]` (Portal-Fenster mit den Bereichsgruppen und Bereichen aus Fluent Community, Feed als Platzhalter). Bezahlte Kurse (Kurs + privat) zählen nicht mit. Nur HTML, Aussehen im Divi-CSS der Startseite. |
 
 ### Anpassbar per Filter
 
@@ -27,6 +28,7 @@ WordPress-Plugin für ki-communities.de. Bündelt die rechtlichen und datenschut
 - `kic/oss_include_test_orders` – Testbestellungen mitzählen (Standard: nein).
 - `kic/noindex_page_ids` – weitere Seiten-IDs, die nicht indexiert werden sollen.
 - `kic/product_card_labels` / `kic/product_card_ctas` – Label und Button-Text der Produkt-Karten je Kategorie-Slug (z. B. `videokurse` → „Videokurs“ / „Zum Kurs“); `kic/product_card_tax_note` – Steuerhinweis hinter dem Preis (Standard „inkl. MwSt.“, leer = aus).
+- `kic/community_hidden_space_ids` – Bereiche, die im Community-Fenster und in den Zahlen fehlen sollen; `kic/community_window_max_spaces` – höchstens so viele Bereiche je Gruppe im Fenster (Standard 6).
 
 ### Voraussetzungen auf der Seite
 
