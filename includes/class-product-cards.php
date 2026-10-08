@@ -2,7 +2,7 @@
 /**
  * Shortcode [kic_produktkarten]: Produkt-Karten für die Startseite, live aus FluentCart.
  *
- * Gibt nur das HTML aus (Klassen kc-card …). Das Aussehen steht im Divi-CSS des Textmoduls,
+ * Gibt nur das HTML aus (Klassen kc-card …, je Karte kc-card--cat-<Kategorie-Slug> für die Kategorie-Farbe). Das Aussehen steht im Divi-CSS des Textmoduls,
  * in dem der Shortcode sitzt. Bild, Kategorie, Titel, Kurzbeschreibung, Preis und Link kommen aus dem Produkt,
  * damit nach Änderungen im Shop nichts auf der Seite nachgepflegt werden muss.
  *
@@ -63,7 +63,8 @@ class KIC_Product_Cards
         $title    = self::title($post->post_title, $label);
         $image    = get_the_post_thumbnail_url($post->ID, 'medium_large');
 
-        $out  = '<a class="kc-card" href="' . esc_url(get_permalink($post)) . '">';
+        $class = 'kc-card' . ($category ? ' kc-card--cat-' . sanitize_html_class($category->slug) : '');
+        $out   = '<a class="' . esc_attr($class) . '" href="' . esc_url(get_permalink($post)) . '">';
         if ($image) {
             $alt  = get_post_meta(get_post_thumbnail_id($post->ID), '_wp_attachment_image_alt', true) ?: $title;
             $out .= '<span class="kc-card-media"><img src="' . esc_url($image) . '" alt="' . esc_attr($alt) . '" loading="lazy" /></span>';
