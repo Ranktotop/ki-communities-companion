@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       KI-Communities Companion
  * Description:       Rechtliche und datenschutzbezogene Ergänzungen für FluentCart und Fluent Community auf ki-communities.de.
- * Version:           1.9.5
+ * Version:           1.9.6
  * Requires at least: 6.9
  * Requires PHP:      8.1
  * Author:            Marc Meese
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('KIC_VERSION', '1.9.5');
+define('KIC_VERSION', '1.9.6');
 define('KIC_FILE', __FILE__);
 define('KIC_DIR', plugin_dir_path(__FILE__));
 define('KIC_URL', plugin_dir_url(__FILE__));
@@ -37,6 +37,7 @@ require_once KIC_DIR . 'includes/class-customer-name.php';
 require_once KIC_DIR . 'includes/class-booking-reschedule.php';
 require_once KIC_DIR . 'includes/class-customer-link.php';
 require_once KIC_DIR . 'includes/class-login-styles.php';
+require_once KIC_DIR . 'includes/class-admin-bar.php';
 
 KIC_Consent::init();
 KIC_Legal_Email::init();
@@ -55,6 +56,7 @@ KIC_Customer_Name::init();
 KIC_Booking_Reschedule::init();
 KIC_Customer_Link::init();
 KIC_Login_Styles::init();
+KIC_Admin_Bar::init();
 
 register_activation_hook(__FILE__, ['KIC_Community_Media', 'activate']);
 register_deactivation_hook(__FILE__, ['KIC_Community_Media', 'deactivate']);
