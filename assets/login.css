@@ -1,0 +1,298 @@
+/* WordPress-Anmeldeseite im Brand-Look von ki-communities.de (Brandkit kicommunities/violet-pink) */
+body.login {
+	background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(136, 114, 219, 0.18), transparent 70%), radial-gradient(ellipse 50% 35% at 85% 100%, rgba(236, 111, 176, 0.08), transparent 70%), #0D0A14;
+	background-attachment: fixed;
+	color: #D2CCDD;
+	font-family: "Abel", sans-serif;
+	font-size: 16px;
+}
+
+#login {
+	width: 400px;
+	max-width: calc(100% - 32px);
+	padding: 8vh 0 40px;
+}
+
+#login h1.wp-login-logo a {
+	width: 240px;
+	height: 90px;
+	background-size: contain;
+	background-position: center;
+	margin: 0 auto 28px;
+}
+
+.login form,
+.login .message,
+.login .notice,
+.login #login_error,
+.login .success {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)), rgba(13, 10, 20, 0.42);
+	-webkit-backdrop-filter: blur(18px) saturate(160%);
+	backdrop-filter: blur(18px) saturate(160%);
+	border: 1px solid rgba(136, 114, 219, 0.24);
+	border-radius: 20px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.40);
+	color: #D2CCDD;
+}
+
+.login form {
+	padding: 30px 28px 26px;
+	margin-top: 0;
+}
+
+.login .message,
+.login .notice,
+.login #login_error,
+.login .success {
+	border-left: 4px solid #8872DB;
+	border-radius: 14px;
+	padding: 14px 18px;
+	margin-bottom: 18px;
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+.login #login_error,
+.login .notice-error {
+	border-left-color: #EC6FB0;
+}
+
+.login .message a,
+.login .notice a,
+.login #login_error a {
+	color: #BBA8FF;
+}
+
+.login label {
+	color: #D2CCDD;
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.login form .input,
+.login input[type="text"],
+.login input[type="password"],
+.login input[type="email"] {
+	background: rgba(13, 10, 20, 0.55);
+	border: 1px solid #2A2238;
+	border-radius: 10px;
+	color: #F2EFF7;
+	font-family: "Abel", sans-serif;
+	font-size: 18px;
+	padding: 8px 14px;
+	min-height: 48px;
+	box-shadow: none;
+	margin: 4px 0 18px;
+}
+
+.login form .input:focus,
+.login input[type="text"]:focus,
+.login input[type="password"]:focus {
+	border-color: #8872DB;
+	box-shadow: 0 0 0 3px rgba(136, 114, 219, 0.25);
+	outline: none;
+}
+
+.login input:-webkit-autofill {
+	-webkit-text-fill-color: #F2EFF7;
+	-webkit-box-shadow: 0 0 0 1000px #15111F inset;
+	transition: background-color 9999s;
+}
+
+.login .wp-pwd .button.wp-hide-pw,
+.login .wp-pwd .button.wp-hide-pw:hover,
+.login .wp-pwd .button.wp-hide-pw:focus {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	color: #A59DB5;
+	height: 48px;
+	min-height: 48px;
+	top: 4px;
+}
+
+.login .wp-pwd .button.wp-hide-pw:hover {
+	color: #BBA8FF;
+}
+
+.login .forgetmenot label {
+	font-size: 15px;
+	color: #A59DB5;
+}
+
+.login input[type="checkbox"] {
+	background: rgba(13, 10, 20, 0.55);
+	border: 1px solid #4A3F5E;
+	border-radius: 5px;
+	box-shadow: none;
+}
+
+.login input[type="checkbox"]:checked {
+	background: #8872DB;
+	border-color: #8872DB;
+}
+
+.login input[type="checkbox"]:checked::before {
+	filter: brightness(0);
+}
+
+.login input[type="checkbox"]:focus {
+	box-shadow: 0 0 0 3px rgba(136, 114, 219, 0.25);
+}
+
+.login .wp-tooltip__toggle {
+	color: #A59DB5;
+}
+
+.login .button-primary,
+.login .button.button-primary {
+	background: #8872DB;
+	border: 0;
+	border-radius: 15px;
+	box-shadow: 0 8px 32px rgba(136, 114, 219, 0.35);
+	color: #0D0A14;
+	font-family: "Inter", sans-serif;
+	font-weight: 700;
+	font-size: 16px;
+	min-height: 46px;
+	padding: 0 26px;
+	text-shadow: none;
+	transition: background 0.2s, transform 0.2s;
+}
+
+.login .button-primary:hover,
+.login .button-primary:focus {
+	background: #9B87E6;
+	color: #0D0A14;
+	transform: scale(1.02);
+	box-shadow: 0 8px 32px rgba(136, 114, 219, 0.45);
+}
+
+.login .button-primary:focus {
+	outline: 2px solid #BBA8FF;
+	outline-offset: 2px;
+}
+
+.login .button:not(.button-primary):not(.wp-hide-pw) {
+	background: transparent;
+	border: 1px solid rgba(136, 114, 219, 0.45);
+	border-radius: 15px;
+	color: #F2EFF7;
+	min-height: 40px;
+	padding: 0 18px;
+	box-shadow: none;
+}
+
+.login .button:not(.button-primary):not(.wp-hide-pw):hover {
+	border-color: #8872DB;
+	color: #BBA8FF;
+}
+
+.login .submit {
+	margin-top: 4px;
+}
+
+.login .submit .button-primary {
+	float: none;
+	width: 100%;
+	margin-top: 8px;
+}
+
+.login #nav,
+.login #backtoblog {
+	text-align: center;
+	padding: 0;
+	margin: 22px 0 0;
+	font-size: 15px;
+}
+
+.login #backtoblog {
+	margin-top: 12px;
+}
+
+.login #nav a,
+.login #backtoblog a,
+.login .privacy-policy-page-link a {
+	color: #A59DB5;
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.login #nav a:hover,
+.login #backtoblog a:hover,
+.login .privacy-policy-page-link a:hover {
+	color: #BBA8FF;
+}
+
+.login .privacy-policy-page-link {
+	margin: 24px 0 0;
+}
+
+/* Passwort festlegen / zurücksetzen */
+.login #pass-strength-result {
+	border-radius: 10px;
+	border: 1px solid #2A2238;
+	background: rgba(13, 10, 20, 0.55);
+	color: #D2CCDD;
+	margin: -8px 0 18px;
+	padding: 8px 12px;
+	font-size: 14px;
+}
+
+.login #pass-strength-result.short,
+.login #pass-strength-result.bad {
+	border-color: #EC6FB0;
+	background: rgba(236, 111, 176, 0.14);
+}
+
+.login #pass-strength-result.good {
+	border-color: #F2A07B;
+	background: rgba(242, 160, 123, 0.14);
+}
+
+.login #pass-strength-result.strong {
+	border-color: #8872DB;
+	background: rgba(136, 114, 219, 0.18);
+}
+
+.login .pw-weak label {
+	color: #A59DB5;
+}
+
+.login .description,
+.login .indicator-hint {
+	color: #A59DB5;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.login .reset-pass-submit {
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 10px;
+}
+
+.login .reset-pass-submit .button {
+	width: 100%;
+	float: none;
+	margin: 0;
+}
+
+.login .reset-pass-submit .button-primary {
+	margin-top: 0;
+}
+
+@media screen and (max-width: 480px) {
+	#login {
+		padding-top: 5vh;
+	}
+
+	.login form {
+		padding: 24px 20px 20px;
+	}
+
+	#login h1.wp-login-logo a {
+		width: 200px;
+		height: 75px;
+	}
+}
