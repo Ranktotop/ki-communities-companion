@@ -11,6 +11,8 @@
  *   kategorie     nur diese Kategorie-Slugs, kommagetrennt
  *   ausschliessen Produkt-IDs, kommagetrennt
  * Reihenfolge: Menü-Reihenfolge des Produkts, danach neueste zuerst.
+ * Hat ein Produkt eine Landingpage (Werkzeuge → Produkt-Landingpages), führt die Karte dorthin. Private Produkte
+ * erscheinen nur mit Landingpage.
  */
 
 if (!defined('ABSPATH')) {
@@ -65,8 +67,8 @@ class KIC_Product_Cards
 
         $query = [
             'post_type'      => 'fluent-products',
-            'post_status'    => 'publish',
-            'posts_per_page' => max(1, (int) $atts['anzahl']),
+            'post_status'    => ['publish', 'private'],
+            'posts_per_page' => -1,
             'orderby'        => ['menu_order' => 'ASC', 'date' => 'DESC'],
             'post__not_in'   => array_filter(array_map('intval', explode(',', $atts['ausschliessen']))),
             'no_found_rows'  => true,
@@ -79,9 +81,17 @@ class KIC_Product_Cards
             ]];
         }
 
-        $html = '';
+        $html  = '';
+        $count = 0;
+        $max   = max(1, (int) $atts['anzahl']);
         foreach (get_posts($query) as $post) {
+            if ($post->post_status === 'private' && !KIC_Product_Landingpages::page_id($post->ID)) {
+                continue;
+            }
             $html .= self::card($post);
+            if (++$count >= $max) {
+                break;
+            }
         }
 
         return $html;
@@ -95,7 +105,7 @@ class KIC_Product_Cards
         $image    = get_the_post_thumbnail_url($post->ID, 'medium_large');
 
         $class = 'kc-card' . ($category ? ' kc-card--cat-' . sanitize_html_class($category->slug) : '');
-        $out   = '<a class="' . esc_attr($class) . '" href="' . esc_url(get_permalink($post)) . '">';
+        $out   = '<a class="' . esc_attr($class) . '" href="' . esc_url(KIC_Product_Landingpages::url($post->ID) ?: get_permalink($post)) . '">';
         if ($image) {
             $alt  = get_post_meta(get_post_thumbnail_id($post->ID), '_wp_attachment_image_alt', true) ?: $title;
             $out .= '<span class="kc-card-media"><img src="' . esc_url($image) . '" alt="' . esc_attr($alt) . '" loading="lazy" /></span>';

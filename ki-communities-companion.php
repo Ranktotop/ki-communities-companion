@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       KI-Communities Companion
  * Description:       Rechtliche und datenschutzbezogene Ergänzungen für FluentCart und Fluent Community auf ki-communities.de.
- * Version:           1.8.2
+ * Version:           1.9.0
  * Requires at least: 6.9
  * Requires PHP:      8.1
  * Author:            Marc Meese
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('KIC_VERSION', '1.8.2');
+define('KIC_VERSION', '1.9.0');
 define('KIC_FILE', __FILE__);
 define('KIC_DIR', plugin_dir_path(__FILE__));
 define('KIC_URL', plugin_dir_url(__FILE__));
@@ -30,6 +30,7 @@ require_once KIC_DIR . 'includes/class-oss-monitor.php';
 require_once KIC_DIR . 'includes/class-shop-noindex.php';
 require_once KIC_DIR . 'includes/class-setup-check.php';
 require_once KIC_DIR . 'includes/class-product-cards.php';
+require_once KIC_DIR . 'includes/class-product-landingpages.php';
 require_once KIC_DIR . 'includes/class-community-showcase.php';
 require_once KIC_DIR . 'includes/class-dashboard-strings.php';
 
@@ -43,6 +44,7 @@ KIC_OSS_Monitor::init();
 KIC_Shop_Noindex::init();
 KIC_Setup_Check::init();
 KIC_Product_Cards::init();
+KIC_Product_Landingpages::init();
 KIC_Community_Showcase::init();
 KIC_Dashboard_Strings::init();
 
